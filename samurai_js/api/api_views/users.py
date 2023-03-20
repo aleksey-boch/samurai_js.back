@@ -10,11 +10,7 @@ class UsersAPIView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        data = {
-            'error': 0,
-            'totalCount': [],
-            'items': None,
-        }
+        data = {'error': 0, 'totalCount': [], 'items': None}
 
         queryset = User.objects.all()
         serializer = UserSerializer(queryset, many=True)
