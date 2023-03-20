@@ -1,4 +1,5 @@
 import datetime
+from typing import Union
 
 from rest_framework import views, permissions, mixins, status
 from rest_framework.response import Response
@@ -29,49 +30,60 @@ def set_cookie(response, key, value, days_expire=7):
     )
 
 
+class AuthMeResponse(Response):
+    def __init__(self, result_code: int = 0, messages: Union[list[str], str] = None, data: dict = None, **kwargs):
+        if not isinstance(messages, list):
+            messages = [messages]
+        super().__init__(data={'resultCode': result_code, 'messages': messages, 'data': data}, **kwargs)
+
+
+class AuthMeResponseAuthorizedError(AuthMeResponse):
+    def __init__(self, messages, **kwargs):
+        super().__init__(
+            resultCode=status.HTTP_401_UNAUTHORIZED,
+            messages=messages,
+            status=status.HTTP_401_UNAUTHORIZED,
+            **kwargs,
+        )
+
+
 class AuthMeAPIView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        data = {'resultCode': 0, 'messages': [], 'data': None}
 
         queryset = User.objects.first()
         serializer = AuthMeSerializer(queryset, many=False)
-        data.update({'data': serializer.data})
 
-        return Response(data)
+        return AuthMeResponse(data=serializer.data)
 
     def post(self, request):
-        data = {'resultCode': 0, 'messages': [], 'data': None}
 
         email = request.data.get('email')
         if email is None:
-            data.update({'resultCode': 401, 'messages': ['email not found']})
-            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+            return AuthMeResponseAuthorizedError(messages='email not found')
 
         user = User.objects.filter(email=email).first()  #
 
         if user is None:
-            data.update({'resultCode': 401, 'messages': ['user not found']})
-            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+            return AuthMeResponseAuthorizedError(messages='user not found')
 
         serializer = AuthMeSerializer(user, many=False)
 
-        data.update({'data': {'userId': serializer.data.get('id')}})
-
-        response = Response(data)
+        data = {'userId': serializer.data.get('id')}
+        response = AuthMeResponse(data=data)
         set_cookie(response, key='authorization', value=hash((8769856, str(data))))
 
         return response
 
     def delete(self, request):
-        data = {'resultCode': 0, 'messages': [], 'data': None}
 
         queryset = User.objects.first()
         serializer = AuthMeSerializer(queryset, many=False)
-        data.update({'data': {}})
+        # todo
+        data = {}
 
-        response = Response(data)
+        response = AuthMeResponse(data=data)
         set_cookie(response, key='authorization', value='')
 
         return response
