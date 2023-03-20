@@ -27,7 +27,9 @@ urlpatterns = [
     path('api/drf-auth/', include('rest_framework.urls')),
     path('api/auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
+
     path('', index, name='index'),
+    path('api/v1/', include('api.urls'), name='apiv1-root'),
 ]
 
 if settings.DEBUG:
