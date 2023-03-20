@@ -1,5 +1,5 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
 
 
 def index(request):

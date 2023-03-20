@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import logging
 import os
 from pathlib import Path
 
@@ -52,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'api.middleware.authorization_middleware',
 ]
 
 ROOT_URLCONF = 'samurai_js.urls'
@@ -60,7 +60,8 @@ ROOT_URLCONF = 'samurai_js.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'api/../templates'],
+        # 'DIRS': [BASE_DIR / 'api/../templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +73,8 @@ TEMPLATES = [
         },
     },
 ]
+# print(f'TEMPLATES: {TEMPLATES}')
+
 
 WSGI_APPLICATION = 'samurai_js.wsgi.application'
 

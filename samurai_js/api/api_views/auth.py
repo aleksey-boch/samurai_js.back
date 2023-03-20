@@ -1,11 +1,11 @@
 import datetime
 from typing import Union
 
-from rest_framework import views, permissions, mixins, status
-from rest_framework.response import Response
-
 from api.models import User
 from api.serializer import AuthMeSerializer
+from rest_framework import permissions, status, views
+from rest_framework.response import Response
+
 from samurai_js import settings
 
 
@@ -51,14 +51,12 @@ class AuthMeAPIView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-
         queryset = User.objects.first()
         serializer = AuthMeSerializer(queryset, many=False)
 
         return AuthMeResponse(data=serializer.data)
 
     def post(self, request):
-
         email = request.data.get('email')
         if email is None:
             return AuthMeResponseAuthorizedError(messages='email not found')
@@ -77,7 +75,6 @@ class AuthMeAPIView(views.APIView):
         return response
 
     def delete(self, request):
-
         queryset = User.objects.first()
         serializer = AuthMeSerializer(queryset, many=False)
         # todo

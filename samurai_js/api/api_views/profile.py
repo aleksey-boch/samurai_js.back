@@ -1,6 +1,6 @@
-from api.models import Contacts, Photo, Profile, User
-from api.serializer import AuthMeSerializer, ContactsSerializer, PhotoSerializer, ProfileSerializer, UserSerializer
-from rest_framework import generics, mixins, permissions, status, views
+from api.models import User
+from api.serializer import ContactsSerializer, PhotoSerializer, ProfileSerializer
+from rest_framework import permissions, views
 from rest_framework.response import Response
 
 

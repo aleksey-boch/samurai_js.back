@@ -1,21 +1,5 @@
+from api.api_views import auth, profile, users
 from django.urls import path
-
-from api.api_views import auth, users, profile
-
-# router = routers.DefaultRouter()
-#
-# router.register('users', UserViewSet, 'users')
-#
-# router.register('auth/me', AuthMeViewSet, 'auth-me')
-#
-# router.register('profile', ProfileAPIView, 'profile')
-# router.register('profile', ProfileAPIView, 'profile')
-#
-#
-# urlpatterns = router.urls
-
-# print(f'\nurlpatterns: {urlpatterns}')
-
 
 urlpatterns = [
     # path('auth', auth.AuthMeAPIView.as_view(), name='api-oot'),

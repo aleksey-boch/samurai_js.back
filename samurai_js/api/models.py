@@ -15,8 +15,7 @@ class User(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        # return reverse('users-detail', kwargs={'id': self.id})
-        return reverse('users-detail', args=[str(self.pk), ])
+        return reverse('users-detail', args=[str(self.pk)])
 
 
 class Followed(models.Model):
@@ -39,7 +38,7 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         # return reverse('users-detail', kwargs={'id': self.id})
-        return reverse('profile-detail', args=[str(self.pk), ])
+        return reverse('profile-detail', args=[str(self.pk)])
 
 
 class Contacts(models.Model):

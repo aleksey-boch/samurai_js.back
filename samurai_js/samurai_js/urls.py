@@ -15,22 +15,19 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import include, path, re_path
 
 from samurai_js import settings
-from samurai_js.views import pageNotFound, index
+from samurai_js.views import index, pageNotFound
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/drf-auth/', include('rest_framework.urls')),
     path('api/auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
-
     path('', index, name='index'),
     path('api/v1/', include('api.urls'), name='apiv1-root'),
 ]
-
-# print(f'urlpatterns: {urlpatterns}')
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

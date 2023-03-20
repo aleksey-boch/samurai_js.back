@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import User, Profile, Contacts, Photo
+
+from .models import Contacts, Photo, Profile, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 class AuthMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'login', 'email',)
+        fields = ('id', 'login', 'email')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
