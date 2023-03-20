@@ -20,11 +20,6 @@ class UsersAPIView(views.APIView):
             'items': None,
         }
 
-        # if request.headers.get('API-KEY') != '3dc40e5a-2498-4648-8754-bcdd62cbe9be':
-        if not request.COOKIES.get('authorization'):
-            data.update({'error': 401, })
-            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
-
         queryset = User.objects.all()
         serializer = UserSerializer(queryset, many=True)
         s_data = copy(serializer.data)
